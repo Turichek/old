@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+    <script>
+        
+
+        //var mass = [
+        //{ n: 'V', f: 'T', age: 20, amount: 8500, bd: new Date('10.13.2000') },
+        //{ n: 'T', f: 'V', age: 39, amount: 25000, bd: new Date('10.30.1981') },
+        //{ n: 'N', f: 'K', age: 20, amount: 14570, bd: new Date('07.07.2000') },
+        //{ n: 'R', f: 'N', age: 80, amount: 12300, bd: new Date('07.28.1940') },
+        //{ n: 'N', f: 'S', age: 19, amount: 8000, bd: new Date('03.09.2001') }]
+
+        //function byFam(a, b) {
+        //    return a.f > b.f ? 1
+        //         : a.f < b.f ? -1
+        //         : 0;
+        //}
+
+        //function byName(a, b) {
+        //    return a.n > b.n ? 1
+        //         : a.n < b.n ? -1
+        //         : 0;
+        //}
+
+        //function byAge(a, b) {
+        //    return a.age > b.age ? 1
+        //         : a.age < b.age ? -1
+        //         : 0;
+        //}
+
+        //function byAmount(a, b) {
+        //    return a.amount > b.amount ? 1
+        //         : a.amount < b.amount ? -1
+        //         : 0;
+        //}
+
+        //function byDate(a, b) {
+        //    return a.bd.valueOf() > b.bd.valueOf() ? 1
+        //         : a.bd.valueOf() < b.bd.valueOf() ? -1
+        //         : 0;
+        //}
+        
+        //{
+        //    let copy1 = mass.sort(byFam).slice(0, mass.length);
+        //    console.log(copy1);
+
+        //    let copy2 = mass.sort(byName).slice(0, mass.length);
+        //    console.log(copy2);
+
+        //    let copy3 = mass.sort(byAge).slice(0, mass.length);
+        //    console.log(copy3);
+
+        //    let copy4 = mass.sort(byAmount).slice(0, mass.length);
+        //    console.log(copy4);
+
+        //    let copy5 = mass.sort(byDate).slice(0, mass.length);
+        //    console.log(copy5);
+        //}
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function AddRect() {
+            g.fillStyle = getRandomColor();
+
+            g.fillRect(event.clientX - 33, event.clientY - 33, 50, 50);
+            g.lineTo(event.clientX - 8, event.clientY - 8)
+            g.stroke()
+
+
+            g.fillStyle = getRandomColor();
+            g.strokeStyle = getRandomColor();
+
+            g.beginPath()
+            g.arc(event.clientX - 8, event.clientY - 8, 25, 0, Math.PI * 2);
+            g.moveTo(event.clientX - 8, event.clientY - 8)
+            g.fill()
+            g.stroke();
+
+            g.closePath();
+        }
+
+        window.onload = function () {
+            g = document.getElementById('plain').getContext("2d");
+            plain.addEventListener("click", AddRect);
+
+            g.beginPath()
+            
+        }
+    </script>
+    <style>
+        #plain{
+           
+            background-color:darkgray;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="plain" width="500" height="500">
+
+    </canvas>
+</body>
+</html>

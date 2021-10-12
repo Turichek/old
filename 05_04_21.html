@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="jquery-3.6.0.min.js"></script>
+    <style>
+        #d1 {
+            border: 2px solid #f44336;
+            width: 400px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        }
+
+        td {
+            padding: 0;
+        }
+
+        .b {
+            border: 2px solid #f44336;
+            color: black;
+            text-align: center;
+            text-decoration: none;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+
+            .b:hover {
+                background-color: #f44336;
+                color: white;
+            }
+
+        .t1 {
+            border-collapse: collapse
+        }
+
+        .bbig {
+            font-size: 72px;
+            background-color: white;
+            width: 200px;
+            height: 200px;
+        }
+
+        .bspeed {
+
+            width: 100px;
+            background-color: white;
+        }
+
+        .bsmall {
+            font-size: 36px;
+            background-color: white;
+            width: 100px;
+            height: 100px;
+        }
+
+        .bvol {
+            border: none;
+            background-color: white;
+            width: 40px;
+            height: 40px;
+        }
+
+            .bvol:active {
+                border: none;
+            }
+
+        .td1 {
+            width: 200px;
+            height: 200px;
+            display: flex;
+            flex-wrap: wrap
+        }
+
+        .td2 {
+            display: inline-block;
+        }
+
+        .d1 {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            transition-duration: 0.4s;
+        }
+
+        .d1:hover{
+            background-color:lightcoral
+        }
+
+        input[type='range'] {
+            overflow: hidden;
+            width: 80px;
+            -webkit-appearance: none;
+            background-color: lightgray;
+        }
+
+            input[type='range']::-webkit-slider-runnable-track {
+                height: 10px;
+                -webkit-appearance: none;
+                color: #13bba4;
+                margin-top: -1px;
+            }
+
+            input[type='range']::-webkit-slider-thumb {
+                width: 10px;
+                -webkit-appearance: none;
+                height: 10px;
+                cursor: ew-resize;
+                background: #434343;
+                box-shadow: -150px 0 0 150px #f44336;
+            }
+    </style>
+</head>
+<body>
+    <script>
+        $(function () {
+            var count = 0, vol = 1, for_id = 0;
+            var sounds = []
+            var now = document.createElement('audio');
+            var IsPlay = false;
+
+            class Sound {
+                sound = document.createElement('audio');
+                name;
+                id;
+
+                constructor(s, n) {
+                    this.sound.src = s
+                    this.name = n
+                    this.id = for_id
+                    for_id++
+                }
+            };
+
+            var s1 = new Sound('Немного огня.mp3', 'Немного огня')
+            s1.sound.ontimeupdate = progressUpdate
+            sounds.push(s1)
+
+            var s2 = new Sound('Heaven Is a Place on Earth.mp3', 'Heaven Is a Place on Earth')
+            s2.sound.ontimeupdate = progressUpdate
+            sounds.push(s2)
+
+            var s3 = new Sound('Niti Sudbi.mp3', 'Niti Sudbi')
+            s3.sound.ontimeupdate = progressUpdate
+            sounds.push(s3)
+
+            var s4 = new Sound('Lets Pretend - Sainwel.mp3', 'Lets Pretend - Sainwel')
+            s4.sound.ontimeupdate = progressUpdate
+            sounds.push(s4)
+
+            var s5 = new Sound('Phillip Phillips - Wicked Game.mp3', 'Phillip Phillips - Wicked Game')
+            s5.sound.ontimeupdate = progressUpdate
+            sounds.push(s5)
+
+            console.log(sounds)
+
+            list()
+            if (localStorage.length == 0) {
+               
+            }
+            else {
+                //sounds = localStorage.getItem('save')
+                console.log(sounds)
+                list()
+            }
+
+            function list() {
+                for (let i = 0; i < 5; i++) {
+                    var track = document.createElement('div')
+
+                    var t_id = document.createElement('p')
+                    t_id.style.width = '25%'
+                    t_id.style.textAlign = 'center'
+                    t_id.textContent = sounds[i].id + 1;
+                    var t_name = document.createElement('p')
+                    t_name.style.width = '75%';
+                    t_name.textContent = sounds[i].name;
+
+                    track.classList.add('d1')
+
+                    track.appendChild(t_id)
+                    track.appendChild(t_name)
+
+                    $('#tracklist').append(track)
+                }
+            }
+
+            $('#x1').on('click', function () {
+                now.playbackRate = 1.0
+            })
+
+            $('#x2').on('click', function () {
+                now.playbackRate = 2.0
+            })
+
+            $('#x3').on('click', function () {
+                now.playbackRate = 3.0
+            })
+
+            $('#x4').on('click', function () {
+                now.playbackRate = 4.0
+            })
+
+            $('#play').on('click', function () {
+                if (IsPlay) {
+                    $(this).css('text-align', 'center')
+                    $(this).html('&#x25BA;')
+                    IsPlay = false
+
+                    now.pause()
+                }
+                else {
+                    $(this).css('text-align', 'left')
+                    $(this).html('&nbsp;&#9616;&#9616;')
+                    IsPlay = true
+
+                    now = sounds[count].sound;
+                    $('#pdur').text(new Date(now.duration * 1000).toISOString().substr(14, 5))
+                    $('#sound').text(sounds[count].name)
+                    now.play()
+                }
+            })
+
+            $('#range').on('change', function () {
+                vol = this.value / 100
+                now.volume = vol
+            })
+
+            $('#reback').on('click', function () {
+                now.currentTime -= 15
+            })
+
+            $('#renext').on('click', function () {
+                now.currentTime += 15
+            })
+
+            $('#voldif').on('click', function () {
+                vol -= 0.1
+                $('#range').val(vol * 100)
+                now.volume = vol
+            })
+
+            $('#volplus').on('click', function () {
+                vol += 0.1
+                $('#range').val(vol * 100)
+                now.volume = vol
+            })
+
+            $('#prev').on('click', function () {
+                stop(now)
+                count--
+
+                if (count < 0) {
+                    count = 0
+                }
+
+                now = sounds[count].sound;
+                now.volume = vol
+                $('#pdur').text(new Date(now.duration * 1000).toISOString().substr(14, 5))
+                $('#sound').text(sounds[count].name)
+                now.play()
+            })
+
+            $('#next').on('click', function () {
+                stop(now)
+                count++
+
+                if (count > sounds.length - 1) {
+                    count = sounds.length - 1
+                }
+
+                now = sounds[count].sound;
+                now.volume = vol
+                $('#pdur').text(new Date(now.duration * 1000).toISOString().substr(14, 5))
+                $('#sound').text(sounds[count].name)
+                now.play()
+            })
+
+            $('#ddur').on('click', function () {
+                var mouseX = Math.floor(event.pageX - this.offsetLeft - 10);
+                var progress = mouseX / (this.offsetWidth / 100);
+                now.currentTime = now.duration * (progress / 100);
+            })
+
+            function stop(s) {
+                s.pause();
+                s.currentTime;
+            }
+
+            function progressUpdate() {
+                $('#dnow').css('width', now.currentTime / now.duration * 100 + "%");
+                $('#pnow').text(new Date(now.currentTime * 1000).toISOString().substr(14, 5))
+                localStorage.setItem('save', sounds)
+            }
+        });
+    </script>
+
+    <div id="d1">
+        <table class="t1">
+            <tr>
+                <td>
+                    <button id="play" class="b bbig">&#x25BA;</button>
+                </td>
+                <td class="td1">
+                    <button id="reback" class="b bsmall">&#x25C4;&#x25C4;</button>
+                    <button id="renext" class="b bsmall">&#x25BA;&#x25BA;</button>
+                    <button id="prev" class="b bsmall">&#x2758;&#x25C4;</button>
+                    <button id="next" class="b bsmall">&#x25BA;&#x2758;</button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div style="display:flex; justify-content:space-around; width:100%;">
+                        <button id="x1" class="b bspeed">x1</button>
+                        <button id="x2" class="b bspeed">x2</button>
+                        <button id="x3" class="b bspeed">x3</button>
+                        <button id="x4" class="b bspeed">x4</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button id="voldif" class="bvol"><i class="material-icons">volume_mute</i></button>
+                    <input id="range" min="0" max="100" value="100" type="range" style="width:77%; color:#f44336 ">
+                    <button id="volplus" class="bvol"><i class="material-icons">volume_up</i></button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div style="display:flex; justify-content:space-around; width:100%;">
+                        <span id="pnow" style="width:10%;">00:00</span>
+                        <div id="ddur" style="width:70%; height:20px; background-color:lightcoral;">
+                            <div id="dnow" style="width:0.1%; height: 20px; background-color:#f44336"></div>
+                        </div>
+                        <span id="pdur" style=" width:10%;">00:00</span>
+                    </div>
+                    <p id="sound" style="text-align:center"></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="background-color:#f44336 " colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td id="tracklist" colspan="2"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

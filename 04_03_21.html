@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <script>
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function getARandomColor() {
+            var color = "rgba(" + Math.random() * 255 + ","
+                + Math.random() * 255 + ","
+                + Math.random() * 255 + ","
+                + parseFloat( Math.random() * (0.7 - 0.3) + 0.3) + ")";
+            return color;
+        }
+
+        function rotateRect(g1, x, y, angle, rx, ry, w, h) {
+            g1.save()
+            g1.translate(x, y)
+            g1.rotate(Math.PI / 180 * angle, true)
+            g1.translate(-x, -y)
+            g1.fillRect(rx, ry, w, h)
+            g1.strokeRect(rx, ry, w, h)
+            g1.restore()
+        }
+
+        function myclear(g1, x, y, angle, rx, ry, w, h) {
+            g1.save()
+            g1.translate(x, y)
+            g1.rotate(Math.PI / 180 * angle, true)
+            g1.translate(-x, -y)
+            g1.clearRect(rx-2, ry-2, w+4, h+4)
+            g1.restore()
+        }
+
+        function animation(x, y, g, fi, clear, isReturn) {
+            if (!isReturn) {
+                if (clear == true) {
+                    /*g.myClear(g, 125, 125, fi, 225, 125, 50, 50)
+                    g.myClear(g, 225, 225, fi, 225, 225, 50, 50)*/
+                    g.myClear(g, x + 25, y + 25, fi, x, y, 50, 50)
+                    if (x > 450) {
+                        isReturn = true
+                    }
+                    animation(x + 1, y, g, fi + 3, false, isReturn)
+                }
+                else {
+                    /*g.rotateRect(g, 125, 125, fi, 225, 125, 50, 50)
+                    g.rotateRect(g, 225, 225, fi, 225, 225, 50, 50)*/
+                    g.rotateRect(g, x + 25, y + 25, fi, x, y, 50, 50)
+
+                    setTimeout(animation, 10, x + 1, y, g, fi, true, isReturn)
+                }
+            }
+            else {
+                if (clear == true) {
+                    /*g.myClear(g, 125, 125, fi, 225, 125, 50, 50)
+                    g.myClear(g, 225, 225, fi, 225, 225, 50, 50)*/
+                    g.myClear(g, x + 25, y + 25, fi, x, y, 50, 50)
+                    if (x < 0) {
+                        isReturn = false
+                    }
+                    animation(x - 1, y, g, fi - 3, false, isReturn)
+                }
+                else {
+                    /*g.rotateRect(g, 125, 125, fi, 225, 125, 50, 50)
+                    g.rotateRect(g, 225, 225, fi, 225, 225, 50, 50)*/
+                    g.rotateRect(g, x + 25, y + 25, fi, x, y, 50, 50)
+
+                    setTimeout(animation, 10, x - 1, y, g, fi, true, isReturn)
+                }
+            }
+        }
+
+        function myClearScale(g1, x, y) {
+            let size = g1.measureText("Туриченко Вадим");
+
+            g1.clearRect(x - 4, y / 2, size.width + 43, 65);
+            g1.clearRect(x - 4, y / 2 + 50, size.width + 43, 65);
+        }
+
+        function myScale(g1, x, y, sx, sy) {
+            g1.save()
+            g1.translate(x, y)
+            g1.scale(sx, sy)
+            g1.translate(-x, -y)
+            g1.fillText("Туриченко Вадим", x, y)
+            g1.strokeText("Туриченко Вадим", x, y+50)
+            g1.restore()
+        }
+
+        function animationText(fx, x, y, g, sx, sy, clear, isGrou) {
+            if (!isGrou) {
+                if (clear == true) {
+                    g.myClear1(g, fx, y);
+                    if (sx < -1) {
+                        isGrou = true
+                    }
+                    animationText(fx, x + 1, y, g, sx - 0.01, sy, false, isGrou)
+                }
+                else {
+                    g.MyScale(g, x, y, sx, sy)
+                    setTimeout(animationText, 10,fx, x + 1, y, g, sx, sy, true, isGrou)
+                }
+            }
+            else {
+                if (clear == true) {
+                    g.myClear1(g, fx, y);
+                    if (sx > 1) {
+                        isGrou = false
+                    }
+                    animationText(fx,x - 1, y, g, sx + 0.01, sy, false, isGrou)
+                }
+                else {
+
+                    g.MyScale(g, x, y, sx, sy)
+                    setTimeout(animationText, 10,fx, x - 1, y, g, sx, sy, true, isGrou)
+                }
+            }
+        }
+
+        function First(g) {
+            g.translate(25, 45)
+
+            g.fillStyle = getARandomColor();
+            //g.fillRect(180, 180, 50, 50)
+            //g.fillRect(140, 140, 70, 70)
+
+            g.fillStyle = getARandomColor();
+            g.translate(-25, -45)
+            //g.scale(1,2)
+            //g.fillRect(80, 80, 50, 50)
+            g.fillRect(40, 40, 70, 70)
+
+            g.fillStyle = getARandomColor();
+            g.save()
+
+            g.translate(40, 40)
+            g.rotate(0.1)
+            g.translate(-40, -40)
+
+            g.fillRect(40, 40, 70, 70)
+
+            g.restore()
+            g.fillStyle = getARandomColor();
+            g.translate(110, 110)
+            g.rotate(0.1)
+
+            g.translate(-110, -110)
+
+            g.fillRect(40, 40, 70, 70)
+        }
+
+        function AddFunc(g) {
+            g.rotateRect = rotateRect;
+            g.myClear = myclear;
+            g.myClear1 = myClearScale;
+            g.MyScale = myScale;
+        }
+
+        function FirstCanvas(g){
+            g.fillStyle = getARandomColor();
+            g.strokeStyle = getARandomColor();
+
+            var x = 10, y = 440;
+            animation(x, y, g, 0, true, false);
+        }
+
+        function SecondCanvas(g) {
+            g.fillStyle = getARandomColor();
+            g.strokeStyle = getARandomColor();
+
+            var x1 = 50, y1 = 100;
+            g.font = "48px serif"
+            animationText(x1, x1, y1, g, 1, 1, true, false)
+        }
+
+        function TherdCanvas(g) {
+            var img = new Image()
+        }
+
+        window.onload = function () {
+            var g = document.getElementById('plain').getContext("2d");
+            var g1 = document.getElementById('plain1').getContext("2d");
+            var g2 = document.getElementById('plain2').getContext("2d");
+
+            AddFunc(g)
+            AddFunc(g1)
+            AddFunc(g2)
+
+            FirstCanvas(g)
+            SecondCanvas(g1)
+            TherdCanvas(g2)
+        }
+    </script>
+    <style>
+        #plain2 {
+            background-color: lightgray;
+        }
+        #plain1 {
+            background-color: lightgray;
+        }
+        #plain {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="plain" width="500" height="500"></canvas>
+    <canvas id="plain1" width="500" height="500"></canvas>
+    <canvas id="plain2" width="500" height="500"></canvas>
+</body>
+</html>

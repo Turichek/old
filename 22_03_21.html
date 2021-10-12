@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+
+    <script src="jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            {
+                /*console.log("hello");
+    
+                $("li").css("border", "1px solid black");
+                $("#id1").css("border", "1px none red");
+                $(".c1").css("border-radius", "70px");
+    
+                $(".c2,.c3,.c4").css("background-color", "silver");
+    
+                $("#id2 > *").css("font-style", "italic");
+                $("#id2 table tr:first + tr").css("text-decoration", "underline");
+                $("#id2 table tr:first ~ tr").css("background-color", "gray");
+    
+                $("li:even").css("color", "#ff0000");
+                $("li:odd").css("color", "#00ff00");
+                var vyb = $("li:eq(2)");
+                console.log(vyb);
+                $(vyb[0]).text("второй элемент");
+                var vyb = $("li:eq(0)");
+                console.log(vyb);
+                $(vyb[0]).text("первый элемент");
+    
+                $("li").bind("click", function () {
+                    console.log(this);
+                });
+                $("li.c4 ~ li:lt(2)").css("background-color", "red");*/
+            }
+
+            $("li").on("click", function () {
+                $('li').css('border', '')
+                $('li').css('font-size',14)
+
+                $(this).css("font-size", "48px");
+                $(this).css("border", "1px solid black");
+                $(this).css("color", "black");
+
+                $('li:lt(' + $(this).index() + ')').css('color', 'green');
+                $('li:gt(' + $(this).index() + ')').css('color', 'red');
+                
+            });
+
+            function cl1() {
+                $('button').css('border', '')
+
+                $(this).css("border", "5px solid red");
+
+                $(this).next().css('border', '5px solid green');
+                $(this).prev().css('border', '5px solid green');
+
+                $(this).unbind('click');
+                $(this).next().bind("click", cl1);
+                $(this).prev().bind("click", cl1);
+
+                console.log('жмякэ')
+
+                $('p').css('border', '')
+            }
+
+            $("button").on("click", cl1);
+        });
+    </script>
+</head>
+<body>
+    <ol>
+        <li>-----------</li>
+        <li>-----------</li>
+        <li>-----------</li>
+        <li id="id2"> -----------</li>
+        <li>-----------</li>
+        <li>-----------</li>
+        <li>-----------</li>
+        <li id="id1">-----------</li>
+        <li>-----------</li>
+        <li class="c1">-----------</li>
+        <li class="c1">-----------</li>
+        <li class="c1">-----------</li>
+        <li class="c1">-----------</li>
+        <li class="c1">-----------</li>
+        <li class="c1">-----------</li>
+        <li class="c2">-----------</li>
+        <li class="c3">-----------</li>
+        <li class="c4">-----------</li>
+        <li>-----------</li>
+        <li>-----------</li>
+        <li>-----------</li>
+        <li>-----------</li>
+        <li>-----------</li>
+        <li>-----------</li>
+        <li>-----------</li>
+        <li>-----------</li>
+    </ol>
+    <hr />
+    <p></p>
+    <button>Жмякни</button>
+    <button>Жмякни</button>
+    <button>Жмякни</button>
+    <button>Жмякни</button>
+</body>
+</html>
